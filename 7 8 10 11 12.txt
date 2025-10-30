@@ -107,4 +107,5 @@ sha512sum example.txt
 sha384sum example.txt 
 ls 
 #we will get md5sum ubuntu-14.04.5.desktop-amd64.isothis file with ls 
+
 md5sum ubuntu-14.04.5.desktop-amd64.iso
