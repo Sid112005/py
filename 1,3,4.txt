@@ -17,6 +17,8 @@ iptables -t nat -A POSTROUTING -p icmp -j SNAT --to-source 192.168.1.12
 Tcpdump -I any 
 #in pc1 
 Ping <pc3 ipaddess> 
+
+
 #arp spoofing 
 Sudo apt-get install arpwatch 
 Service arpwatch status 
@@ -30,6 +32,7 @@ Sudo tail -f  /var/log/syslog
 Systemctl daemon-reload 
 Systemctl start arpwatch@enp4s0 
 Sudo tail -f /var/log/syslog | grep arpwatch 
+
 
 
 EXP@3 - To Study use of Iptables to configure stateful Software firewall on Linux Host. 
@@ -64,27 +67,45 @@ iptables -A INPUT -p tcp -s 15.15.15.0/24 --dport 3306 -m conntrack --ctstate
 NEW,ESTABLISHED -j ACCEPT  
 iptables -A OUTPUT -p tcp --sport 3306 -m conntrack --ctstate ESTABLISHED -j ACCEPT 
 #mysql start and run it 
+#optional
+#Allow MySQL to Specific Network Interface 
+#To allow MySQL connections to a specific network interface—say server has a private network 
+interface eth1, for example—use these commands: 
+iptables -A INPUT -i eth1 -p tcp --dport 3306 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT 
+iptables -A OUTPUT -o eth1 -p tcp --sport 3306 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
 
 EXP@4 - To study analysis of network packets by sing open source sniffing tools like tcpdump 
 and Wireshark in promiscuous and non-promiscuous mode 
 sudo apt-get install tcpdump 
 tcpdump -D : display all available interfaces 
-tcpdump -i any 
-tcpdump -i wlo1 (mam’s command) 
+tcpdump -i any
+tcpdump -i wlo1 (mam’s command)
+sudo tcpdump -i enp1s0 (my command after running tcpdump -D we get this enp1s0)
 tcpdump -i enp4s0 port 80 (our command) 
 tcpdump -i enp4s0 -c 5  
+sudo tcpdump -i enp1s0 src 192.168.43.169
+sudo tcpdump -i enp1s0 dst 192.168.43.169
+#optional
+#To capture only TCP SYN packets: 
+---------------------------------------------------------
+sudo tcpdump -i wlo1 "tcp[tcpflags] & (tcp-syn) != 0" >/home/apsit/Desktop/syn.txt 
+sudo tcpdump -i wlo1 "tcp[tcpflags] & (tcp-syn) != 0" >/home/apsit/Desktop/ack.txt 
 tcpdump -i enp4s0 tcp (captures tcp traffic) 
+--------------------------------------------------------
 sudo tcpdump -i enp4s0 -x -X -A -nvvv port 22 > ssh.text 
 sudo tcpdump -i wlo1 -x -X -A -nvvv port 22 > ssh.txt 
 ssh apsit@ipaddress 
 # To capture telnet packet: 
 sudo tcpdump -i wlo1 -x -X -A -nvvv port 23 > telnet.txt 
+#optional
 telnet <ipaddress> 
 sudo wireshark 
 #search 
 Ssh 
 Tcp.stream eq 17 
+
+
 EXP@5 - To use nmap for network discovery and security auditing. 
 Sudo apt-get install nmap 
 # To scan a single system 
@@ -106,4 +127,5 @@ Sudo nmap -sU ipadress
 #version detection 
 Sudo nmap -sV ipadress 
 #OS detection 
+
 Sudo nmap -O ipadress
