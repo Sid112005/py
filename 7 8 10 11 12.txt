@@ -1,3 +1,5 @@
+
+
 EXP7: Aim: To study Intrusion Detection system SNORT 
 and its log analysis. 
 sudo apt-get update 
@@ -109,4 +111,5 @@ ls
 #we will get md5sum ubuntu-14.04.5.desktop-amd64.isothis file with ls 
 
 md5sum ubuntu-14.04.5.desktop-amd64.iso
+
 
